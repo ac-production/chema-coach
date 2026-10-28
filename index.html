@@ -99,6 +99,17 @@
       border-radius: 20px; padding: 40px 24px;
     }
     .contact p { color: var(--muted); margin-top: 12px; }
+    .video-card { display: block; text-decoration: none; color: inherit; transition: border-color 0.2s; }
+    .video-card:hover { border-color: var(--gold); }
+    .video-card .more { display: inline-block; margin-top: 14px; color: var(--gold-light); font-size: 14px; font-weight: 600; }
+    .contact .detail { color: var(--muted); margin-top: 8px; }
+    .contact .detail a { color: var(--gold); text-decoration: none; }
+    .links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .btn-ghost {
+      display: inline-block; padding: 10px 20px; border: 1px solid var(--gold); border-radius: 999px;
+      color: var(--gold-light); text-decoration: none; font-weight: 600; font-size: 14px;
+    }
+    .btn-ghost:hover { background: var(--panel); }
     footer {
       text-align: center; color: var(--muted); font-size: 13px; padding: 32px 24px;
       border-top: 1px solid var(--line);
@@ -118,6 +129,7 @@
     <a class="brand" href="index.html">CHEMA COACH</a>
     <nav>
       <a href="#servicios">Servicios</a>
+      <a href="#videos">Videos</a>
       <a href="#metodo">Método</a>
       <a href="#contacto">Contacto</a>
     </nav>
@@ -155,6 +167,33 @@
     </div>
   </section>
 
+  <section id="videos">
+    <h2>Videos destacados</h2>
+    <p class="lead">Algunos de los videos que más explican cómo entreno y cómo trabajo.</p>
+    <div class="grid">
+      <a class="card video-card" href="https://www.instagram.com/reel/De_SWJcBu0s/" target="_blank" rel="noopener">
+        <h3>Mortal hacia atrás</h3>
+        <p>Consejos para empezar a trabajar este movimiento con técnica, fuerza y confianza.</p>
+        <span class="more">Ver en Instagram →</span>
+      </a>
+      <a class="card video-card" href="https://www.instagram.com/reel/DdkXz-HObS5/" target="_blank" rel="noopener">
+        <h3>Gimnasia y fuerza</h3>
+        <p>Cómo mantener las habilidades de gimnasia artística con fuerza, potencia y control corporal.</p>
+        <span class="more">Ver en Instagram →</span>
+      </a>
+      <a class="card video-card" href="https://www.instagram.com/reel/DdPxryJOQUR/" target="_blank" rel="noopener">
+        <h3>Creatina</h3>
+        <p>Cómo elegir la creatina correcta y tomarla con constancia, sin complicarte.</p>
+        <span class="more">Ver en Instagram →</span>
+      </a>
+      <a class="card video-card" href="https://www.instagram.com/reel/DddXXiluP-C/" target="_blank" rel="noopener">
+        <h3>Cómo saber si el peso es el correcto</h3>
+        <p>Porcentaje, RIR y cómo ajustar la carga según tu rendimiento real.</p>
+        <span class="more">Ver en Instagram →</span>
+      </a>
+    </div>
+  </section>
+
   <section id="metodo">
     <h2>Cómo trabajamos</h2>
     <p class="lead">Un proceso simple, con explicación en cada paso.</p>
@@ -170,13 +209,19 @@
   <section id="contacto">
     <div class="contact">
       <h2>¿Quieres entrenar conmigo?</h2>
-      <p>Escríbeme por Instagram y cuéntame tu objetivo.</p>
-      <a class="cta" href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">Escribir por Instagram</a>
+      <p>Escríbeme por WhatsApp o por correo y cuéntame tu objetivo.</p>
+      <a class="cta" href="https://wa.me/50660020388" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      <p class="detail">WhatsApp: 6002-0388</p>
+      <p class="detail"><a href="mailto:salas.chema1234@gmail.com">salas.chema1234@gmail.com</a></p>
     </div>
   </section>
 
   <footer>
-    © Chema Coach · <a href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">@chema_coach</a>
+    <div class="links">
+      <a class="btn-ghost" href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">Instagram</a>
+      <a class="btn-ghost" href="https://www.facebook.com/104432805943992" target="_blank" rel="noopener">Facebook</a>
+    </div>
+    <p style="margin-top:20px">© Chema Coach · <a href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">@chema_coach</a></p>
   </footer>
 </body>
 </html>
