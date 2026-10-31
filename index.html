@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Chema Coach | Entrenamiento, gimnasia y calistenia</title>
-  <meta name="description" content="Chema Coach: entrenamiento personal, gimnasia y calistenia. Movimientos explicados paso a paso.">
+  <meta name="description" content="Chema Coach: entrenamiento personal, semipersonal, gimnasia y calistenia. Clase de prueba gratis, precios y horarios.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
@@ -52,12 +52,18 @@
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
     .hero p { color: var(--muted); margin-top: 18px; font-size: 18px; max-width: 540px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
     .cta {
-      display: inline-block; margin-top: 26px;
+      display: inline-block;
       background: linear-gradient(180deg, #f0c080, #d9a040); color: #1a1208; font-weight: 600;
       padding: 14px 26px; border-radius: 999px; text-decoration: none;
     }
     .cta:hover { filter: brightness(1.08); }
+    .btn-outline {
+      display: inline-block; padding: 13px 24px; border: 1px solid var(--gold); border-radius: 999px;
+      color: var(--gold-light); text-decoration: none; font-weight: 600;
+    }
+    .btn-outline:hover { background: var(--panel); }
     .hero-photo {
       width: 100%; border-radius: 18px; overflow: hidden;
       border: 1px solid var(--line); aspect-ratio: 4 / 3; object-fit: cover;
@@ -77,6 +83,20 @@
       font-size: 22px; letter-spacing: 0.5px; color: var(--gold); margin-bottom: 8px;
     }
     .card p { color: var(--muted); font-size: 15px; }
+    details { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+    summary {
+      cursor: pointer; color: var(--gold-light); font-weight: 600; font-size: 14px; list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: " +"; }
+    details[open] summary::after { content: " −"; }
+    details ul { list-style: none; margin-top: 10px; color: var(--muted); font-size: 14px; }
+    details li { padding: 6px 0; border-bottom: 1px dashed var(--line); }
+    details li strong { color: var(--text); }
+    table { width: 100%; border-collapse: collapse; color: var(--muted); font-size: 14px; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    th { color: var(--gold-light); font-weight: 600; }
+    .table-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
     .steps { list-style: none; counter-reset: step; }
     .steps li {
       counter-increment: step; position: relative;
@@ -90,18 +110,26 @@
       background: linear-gradient(180deg, #f0c080, #d9a040); color: #1a1208; font-weight: 600;
       display: flex; align-items: center; justify-content: center;
     }
+    .rules { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+    .rules li { color: var(--muted); margin: 8px 0 8px 20px; }
     .note {
       border-left: 3px solid var(--bronze); padding: 12px 16px; color: var(--muted);
-      background: var(--panel); border-radius: 0 12px 12px 0; font-size: 14px;
+      background: var(--panel); border-radius: 0 12px 12px 0; font-size: 14px; margin-top: 20px;
     }
+    .form { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 14px; }
+    .form label { display: grid; gap: 6px; color: var(--muted); font-size: 14px; }
+    .form input, .form select, .form textarea {
+      background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px;
+      padding: 10px 12px; font: inherit;
+    }
+    .form textarea { min-height: 90px; }
+    .form .hidden { display: none; }
+    .form button { justify-self: start; border: 0; cursor: pointer; font: inherit; }
     .contact {
       text-align: center; background: var(--panel); border: 1px solid var(--line);
       border-radius: 20px; padding: 40px 24px;
     }
     .contact p { color: var(--muted); margin-top: 12px; }
-    .video-card { display: block; text-decoration: none; color: inherit; transition: border-color 0.2s; }
-    .video-card:hover { border-color: var(--gold); }
-    .video-card .more { display: inline-block; margin-top: 14px; color: var(--gold-light); font-size: 14px; font-weight: 600; }
     .contact .detail { color: var(--muted); margin-top: 8px; }
     .contact .detail a { color: var(--gold); text-decoration: none; }
     .links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
@@ -110,13 +138,41 @@
       color: var(--gold-light); text-decoration: none; font-weight: 600; font-size: 14px;
     }
     .btn-ghost:hover { background: var(--panel); }
+    .video-card { display: block; text-decoration: none; color: inherit; transition: border-color 0.2s; }
+    .video-card:hover { border-color: var(--gold); }
+    .video-card .more { display: inline-block; margin-top: 14px; color: var(--gold-light); font-size: 14px; font-weight: 600; }
     footer {
       text-align: center; color: var(--muted); font-size: 13px; padding: 32px 24px;
       border-top: 1px solid var(--line);
     }
     footer a { color: var(--gold); text-decoration: none; }
+    .hero { position: relative; }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: url("logo-chema-animado.png") center / 60% no-repeat;
+      opacity: 0.12;
+    }
+    .logo-anim { width: 100%; max-width: 320px; border-radius: 16px; animation: glow 4s ease-in-out infinite; }
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 10px rgba(240, 192, 128, 0.3)); }
+      50% { filter: drop-shadow(0 0 28px rgba(240, 192, 128, 0.8)); }
+    }
+    .about { display: grid; gap: 24px; align-items: center; }
+    .about .details-box { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px 24px; }
+    .about .details-box > summary { font-size: 16px; }
+    .about p { color: var(--muted); margin-top: 12px; }
+    .credit { color: var(--muted); font-size: 15px; margin: 6px 0 0 20px; }
+    .about-cards { display: grid; gap: 14px; }
+    .sub { color: var(--gold-light); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin: 14px 0 6px; }
+    .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .chips li { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; color: var(--text); font-size: 14px; }
+    .translate { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
+    #google_translate_element .goog-te-gadget { font-size: 12px; color: var(--muted); }
+    .brand-logo { height: 44px; width: auto; display: block; }
+    .footer-logo { width: 96px; height: auto; display: block; margin: 0 auto 16px; border-radius: 12px; }
     @media (min-width: 800px) {
       .hero { grid-template-columns: 1.1fr 1fr; padding-top: 72px; }
+      .about { grid-template-columns: 1fr 1.2fr; }
     }
     @media (max-width: 600px) {
       nav a { margin-left: 12px; }
@@ -126,44 +182,245 @@
 </head>
 <body>
   <header>
-    <a class="brand" href="index.html">CHEMA COACH</a>
+    <a class="brand" href="index.html"><img class="brand-logo" src="logo-chema-completo.jpg" alt="Chema Coach"></a>
     <nav>
       <a href="#servicios">Servicios</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#horarios">Horarios</a>
       <a href="#videos">Videos</a>
-      <a href="#metodo">Método</a>
-      <a href="#mision">Misión</a>
       <a href="#contacto">Contacto</a>
     </nav>
+    <div id="google_translate_element" class="translate"></div>
   </header>
 
   <div class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
     <div>
       <h1>Entrenamiento, <span>gimnasia</span> y calistenia.</h1>
       <p>Explico cada movimiento con calma, desde la base hasta la versión que quieres lograr. Muestro el proceso, incluidos los intentos fallidos.</p>
-      <a class="cta" href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">Ver contenido en Instagram</a>
+      <div class="actions">
+        <a class="cta" href="https://wa.me/50660020388?text=Hola%20Chema%2C%20quiero%20reservar%20mi%20clase%20de%20prueba%20gratis." target="_blank" rel="noopener">Clase de prueba gratis</a>
+        <a class="btn-outline" href="https://wa.me/50660020388?text=Hola%20Chema%2C%20quiero%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener">Cotizar</a>
+      </div>
     </div>
     <img class="hero-photo" src="hero-chema.jpg" alt="Chema Coach en el gimnasio">
   </div>
 
   <section id="servicios">
     <h2>Servicios</h2>
-    <p class="lead">Entrenamiento para fuerza, control corporal y movilidad.</p>
+    <p class="lead">Entrenamiento para fuerza, control corporal y movilidad. Los precios están en cada servicio.</p>
     <div class="grid">
       <div class="card">
         <h3>Entrenamiento personal</h3>
         <p>Rutinas adaptadas a tu nivel, tus objetivos y tu tiempo disponible.</p>
+        <details>
+          <summary>Ver precio</summary>
+          <ul>
+            <li><strong>₡75.000</strong> al mes · 12 clases de 1 hora</li>
+            <li>Clase individual, en uno de los dos gimnasios de la zona.</li>
+            <li>Reserva con anticipación, de lunes a viernes.</li>
+          </ul>
+        </details>
       </div>
       <div class="card">
-        <h3>Gimnasia</h3>
-        <p>Progresiones para acrobacias y movimientos de control, desde la base hasta el movimiento completo.</p>
+        <h3>Semipersonal</h3>
+        <p>Entrenamiento en grupo pequeño, con corrección individual en cada movimiento.</p>
+        <details>
+          <summary>Ver precio</summary>
+          <ul>
+            <li><strong>₡50.000</strong> al mes · 12 clases de 1 hora</li>
+            <li>Cupo máximo de 7 personas por clase.</li>
+            <li>Reserva con anticipación, de lunes a viernes.</li>
+          </ul>
+        </details>
       </div>
       <div class="card">
-        <h3>Calistenia</h3>
-        <p>Trabajo con el peso de tu propio cuerpo, con progresiones claras y seguras.</p>
+        <h3>Planes de entrenamiento</h3>
+        <p>Progresiones escritas para entrenar en casa o en el gimnasio, según tu nivel.</p>
+        <details>
+          <summary>Ver precios</summary>
+          <ul>
+            <li><strong>₡20.000</strong> · Plan básico</li>
+            <li><strong>₡30.000</strong> · Plan con seguimiento</li>
+          </ul>
+        </details>
       </div>
       <div class="card">
-        <h3>Movilidad</h3>
-        <p>Ejercicios para ganar rango de movimiento y preparar el cuerpo antes de entrenar.</p>
+        <h3>Guías alimenticias</h3>
+        <p>Orientación de alimentación para tu objetivo. No sustituye la consulta con un nutricionista.</p>
+        <details>
+          <summary>Ver precio</summary>
+          <ul>
+            <li><strong>[PRECIO POR CONFIRMAR]</strong></li>
+          </ul>
+        </details>
+      </div>
+      <div class="card">
+        <h3>Coaching digital</h3>
+        <p>Entrenamiento y seguimiento a distancia, con un programa personalizado para tu objetivo.</p>
+        <details>
+          <summary>Ver precio</summary>
+          <ul>
+            <li><strong>₡45.000</strong> al mes</li>
+          </ul>
+        </details>
+      </div>
+      <div class="card">
+        <h3>Seguimiento con guía alimenticia</h3>
+        <p>Seguimiento a distancia de tu entrenamiento, con una guía de alimentación para tu objetivo. No sustituye la consulta con un nutricionista.</p>
+        <details>
+          <summary>Ver precio</summary>
+          <ul>
+            <li><strong>₡45.000</strong> al mes</li>
+          </ul>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre-mi">
+    <h2>Sobre mí</h2>
+    <p class="lead">Atleta y entrenador. Lo que aprendí compitiendo, lo que enseño ahora.</p>
+    <div class="about">
+      <img class="logo-anim" src="logo-chema-animado.png" alt="Logo animado de Chema Coach">
+      <div class="about-cards">
+        <details class="details-box" open>
+          <summary>Como atleta</summary>
+          <ul class="chips">
+            <li>Gimnasia artística masculina</li>
+            <li>Campeón nacional de porrismo (5 veces)</li>
+            <li>Varias medallas en campeonatos internos de gimnasia</li>
+          </ul>
+        </details>
+        <details class="details-box">
+          <summary>Como entrenador</summary>
+          <p class="sub">Gimnasia artística</p>
+          <ul class="chips">
+            <li>Asociación Metropolitana de Gimnasia</li>
+            <li>Gimnasio Belén</li>
+            <li>Gravite</li>
+          </ul>
+          <p class="sub">Entrenamiento personal y fitness</p>
+          <ul class="chips">
+            <li>Power Fitness (San Carlos)</li>
+            <li>Revolution (Ciudad Quesada)</li>
+            <li>Doctor Gym (Florencia)</li>
+            <li>Vita Fuerte (Aguas Zarcas)</li>
+            <li>World Gym</li>
+            <li>Golden Gym</li>
+            <li>Empire Gym Center (Tibás)</li>
+          </ul>
+          <p class="sub">Clases en instituciones</p>
+          <ul class="chips">
+            <li>Nueva Esperanza (Heredia)</li>
+            <li>Montecarlo (San Carlos)</li>
+            <li>Colegio Adventista (Hatillo)</li>
+          </ul>
+        </details>
+        <details class="details-box">
+          <summary>Formación</summary>
+          <p class="sub">Académica</p>
+          <ul class="chips">
+            <li>Bachiller en Educación Media</li>
+            <li>Inglés B2</li>
+            <li>Contaduría (en curso)</li>
+          </ul>
+          <p class="sub">Deportiva</p>
+          <ul class="chips">
+            <li>Titulación de entrenador de alto rendimiento en gimnasia artística masculina y femenina</li>
+            <li>Federación Deportiva de Gimnasia y Afines de Costa Rica</li>
+            <li>FIG (Federación Internacional de Gimnasia)</li>
+            <li>ICODER</li>
+            <li>FECAD</li>
+          </ul>
+        </details>
+      </div>
+    </div>
+    <p class="note">Clases en español o en inglés.</p>
+  </section>
+
+  <section id="clase-prueba">
+    <h2>Clase de prueba gratis</h2>
+    <p class="lead">Una hora para conocer tu punto de partida. Sin compromiso: si no te sirve, no sigues.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Qué incluye</h3>
+        <p>Evaluación de tu nivel, una progresión práctica y el plan que te recomendaría.</p>
+      </div>
+      <div class="card">
+        <h3>Dónde</h3>
+        <p>En uno de estos dos gimnasios de Aguas Zarcas:</p>
+        <ul class="places">
+          <li><strong>Elite Fitness</strong>: 100 m norte de Daytona.
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Elite+Fitness+Aguas+Zarcas" target="_blank" rel="noopener">Abrir en Google Maps</a></li>
+          <li><strong>Kultura Fit</strong>: 400 m oeste del CTP de Aguas Zarcas, frente al Hotel Río Mary.
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Kultura+Fit+Aguas+Zarcas" target="_blank" rel="noopener">Abrir en Google Maps</a></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Cómo reservar</h3>
+        <p>Toca el botón de clase de prueba y te escribo por WhatsApp para confirmar horario y lugar.</p>
+        <a class="cta" style="margin-top:14px" href="https://wa.me/50660020388?text=Hola%20Chema%2C%20quiero%20reservar%20mi%20clase%20de%20prueba%20gratis." target="_blank" rel="noopener">Reservar clase gratis</a>
+      </div>
+    </div>
+    <p class="note">Antes de la clase te pregunto por lesiones o condiciones médicas. Si tienes alguna, consulta primero a un profesional de salud.</p>
+  </section>
+
+  <section id="horarios">
+    <h2>Horarios de atención</h2>
+    <p class="lead">Lunes a viernes. Cada clase dura 1 hora.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Servicio</th><th>Mañana</th><th>Tarde y noche</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Entrenamiento personal</td>
+            <td>5:00 a 6:00 · 6:00 a 7:00</td>
+            <td>3:00 a 4:00 · 5:00 a 6:00 · 6:00 a 7:00 pm</td>
+          </tr>
+          <tr>
+            <td>Semipersonal (máx. 7)</td>
+            <td>7:00 a 8:00 · 8:00 a 9:00</td>
+            <td>7:00 a 8:00 · 8:00 a 9:00 pm</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rules" style="margin-top:20px">
+      <h3 style="color:var(--gold);font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;margin-bottom:8px">Reglas de reserva</h3>
+      <ul>
+        <li>Tienes 12 clases al mes en tu plan.</li>
+        <li>Si cancelas, avisa con al menos 2 horas de anticipación, o por fuerza mayor.</li>
+        <li>Si faltas sin aviso y sin justificación, pierdes ese cupo.</li>
+      </ul>
+    </div>
+    <p class="note">Si ya eres cliente, puedes reservar tus clases con anticipación en estos horarios, escribiéndome por WhatsApp.</p>
+  </section>
+
+  <section id="formulario">
+    <h2>Cuéntame qué necesitas</h2>
+    <p class="lead">Responde unas preguntas y te escribo con una propuesta según tu caso.</p>
+    <div class="form-cta">
+      <p>Llena el formulario en Google. Toma unos 3 minutos y te escribo con una propuesta según tu caso.</p>
+      <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfSp5sJTJSWuQuLRb4J9L4p0ejxMTYz61ZDhOz55xjI1w8r6Q/viewform" target="_blank" rel="noopener">Abrir el formulario</a>
+    </div>
+    <p class="note">Tus datos solo se usan para responderte. Lee la <a href="privacidad.html" style="color:var(--gold-light)">política de privacidad</a>.</p>
+  </section>
+
+  <section id="mision">
+    <h2>Misión y visión</h2>
+    <p class="lead">Por qué entreno, y hacia dónde quiero llevar este trabajo.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>Misión</h3>
+        <p>Enseñar a entrenar con criterio: explicar cada progresión, corregir los errores comunes y acompañar a cada persona según su nivel y su objetivo.</p>
+      </div>
+      <div class="card">
+        <h3>Visión</h3>
+        <p>Que más personas en Costa Rica aprendan fuerza, gimnasia y calistenia de forma segura, entendible y sostenible.</p>
       </div>
     </div>
   </section>
@@ -204,22 +461,7 @@
       <li>Practicamos cada movimiento con corrección de errores comunes.</li>
       <li>Revisamos avances y ajustamos el plan.</li>
     </ol>
-    <p class="note" style="margin-top:20px">Sin promesas de resultados ni tiempos exactos para lograr un movimiento. Si tienes una lesión, consulta primero a un profesional de salud.</p>
-  </section>
-
-  <section id="mision">
-    <h2>Misión y visión</h2>
-    <p class="lead">Por qué entreno, y hacia dónde quiero llevar este trabajo.</p>
-    <div class="grid">
-      <div class="card">
-        <h3>Misión</h3>
-        <p>Enseñar a entrenar con criterio: explicar cada progresión, corregir los errores comunes y acompañar a cada persona según su nivel y su objetivo.</p>
-      </div>
-      <div class="card">
-        <h3>Visión</h3>
-        <p>Que más personas en Costa Rica aprendan fuerza, gimnasia y calistenia de forma segura, entendible y sostenible.</p>
-      </div>
-    </div>
+    <p class="note">Sin promesas de resultados ni tiempos exactos para lograr un movimiento. Si tienes una lesión, consulta primero a un profesional de salud.</p>
   </section>
 
   <section id="contacto">
@@ -233,11 +475,20 @@
   </section>
 
   <footer>
+    <img class="footer-logo" src="logo-chema-completo.jpg" alt="Chema Coach">
     <div class="links">
       <a class="btn-ghost" href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">Instagram</a>
       <a class="btn-ghost" href="https://www.facebook.com/104432805943992" target="_blank" rel="noopener">Facebook</a>
     </div>
-    <p style="margin-top:20px">© Chema Coach · <a href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">@chema_coach</a></p>
+    <p style="margin-top:20px">© Chema Coach · <a href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">@chema_coach</a> · <a href="privacidad.html">Política de privacidad</a></p>
   </footer>
+
+
+  <script>
+    function gtInit() {
+      new google.translate.TranslateElement({ pageLanguage: "es", includedLanguages: "en,es", autoDisplay: false }, "google_translate_element");
+    }
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=gtInit"></script>
 </body>
 </html>
