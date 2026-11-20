@@ -7,210 +7,355 @@
   <meta name="description" content="Chema Coach: entrenamiento personal, semipersonal, gimnasia y calistenia. Clase de prueba gratis, precios y horarios.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0d0b08;
       --panel: #171410;
+      --panel-2: #1d1914;
       --line: #2a241c;
       --text: #f4efe6;
       --muted: #a79d8c;
       --gold-light: #f0c080;
       --gold: #d9a040;
       --bronze: #703010;
+      --ember: #ff7a2e;
+      --ease: cubic-bezier(.2,.8,.2,1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; overflow-x: hidden; overflow-x: clip; }
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg); color: var(--text);
       font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.6;
+      line-height: 1.6; overflow-x: hidden;
     }
+    body::before {
+      content: ""; position: fixed; inset: -20%; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(40% 35% at 12% 8%, rgba(217,160,64,.20), transparent 70%),
+        radial-gradient(35% 30% at 92% 55%, rgba(255,122,46,.10), transparent 70%),
+        radial-gradient(30% 30% at 30% 96%, rgba(217,160,64,.10), transparent 70%);
+      animation: drift 24s ease-in-out infinite alternate;
+    }
+    @keyframes drift { to { transform: translate(4%, -3%) scale(1.08); } }
+    a { color: inherit; }
+
+    /* Barra de progreso de lectura */
+    .progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 30; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--ember)); transform-origin: 0 50%; transform: scaleX(0); }
+
+    /* Encabezado */
     header {
-      position: sticky; top: 0; z-index: 10;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 16px 24px;
-      background: rgba(13, 11, 8, 0.92);
-      backdrop-filter: blur(8px);
+      position: sticky; top: 0; z-index: 20;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 14px 24px;
+      background: rgba(13, 11, 8, 0.85); backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
     }
-    .brand { font-family: "Anton", Impact, sans-serif; font-size: 22px; letter-spacing: 1px; color: var(--gold-light); text-decoration: none; }
-    nav a { color: var(--muted); text-decoration: none; margin-left: 20px; font-size: 14px; }
-    nav a:hover { color: var(--gold-light); }
-    .hero {
-      display: grid; grid-template-columns: 1fr; gap: 32px;
-      max-width: 1100px; margin: 0 auto;
-      padding: 48px 24px 64px;
-      align-items: center;
-    }
-    .hero h1 {
-      font-family: "Anton", Impact, sans-serif; font-weight: 400;
-      font-size: clamp(40px, 7vw, 72px); line-height: 1.02; letter-spacing: 1px;
-    }
-    .hero h1 span {
-      background: linear-gradient(180deg, #fff2cf 0%, #f0c080 45%, #d9a040 100%);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .hero p { color: var(--muted); margin-top: 18px; font-size: 18px; max-width: 540px; }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+    .brand { display: inline-flex; align-items: center; }
+    .brand-logo { height: 44px; width: auto; display: block; border-radius: 6px; }
+    nav { display: flex; align-items: center; gap: 4px; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 14px; padding: 6px 12px; border-radius: 999px; transition: color .25s, background .25s; }
+    nav a:hover { color: var(--text); }
+    nav a.active { color: var(--gold-light); background: rgba(217,160,64,.14); }
+    .head-right { display: flex; align-items: center; gap: 10px; }
+    #google_translate_element .goog-te-gadget { font-size: 12px; color: var(--muted); }
+    .menu-btn { display: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; place-items: center; }
+    .menu-btn span, .menu-btn span::before, .menu-btn span::after { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 2px; position: relative; transition: transform .3s var(--ease), background .2s; }
+    .menu-btn span::before, .menu-btn span::after { content: ""; position: absolute; left: 0; }
+    .menu-btn span::before { top: -6px; } .menu-btn span::after { top: 6px; }
+    body.menu-open .menu-btn span { background: transparent; }
+    body.menu-open .menu-btn span::before { transform: translateY(6px) rotate(45deg); }
+    body.menu-open .menu-btn span::after { transform: translateY(-6px) rotate(-45deg); }
+
+    /* Botones */
     .cta {
       display: inline-block;
-      background: linear-gradient(180deg, #f0c080, #d9a040); color: #1a1208; font-weight: 600;
+      background: linear-gradient(180deg, #f0c080, #d9a040); color: #1a1208; font-weight: 700;
       padding: 14px 26px; border-radius: 999px; text-decoration: none;
+      box-shadow: 0 10px 30px -10px rgba(217,160,64,.6);
+      transition: transform .25s var(--ease), box-shadow .25s, filter .25s;
     }
-    .cta:hover { filter: brightness(1.08); }
+    .cta:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -10px rgba(217,160,64,.8); filter: brightness(1.05); }
     .btn-outline {
       display: inline-block; padding: 13px 24px; border: 1px solid var(--gold); border-radius: 999px;
       color: var(--gold-light); text-decoration: none; font-weight: 600;
+      transition: background .25s, transform .25s var(--ease);
     }
-    .btn-outline:hover { background: var(--panel); }
-    .hero-photo {
-      width: 100%; border-radius: 18px; overflow: hidden;
-      border: 1px solid var(--line); aspect-ratio: 4 / 3; object-fit: cover;
+    .btn-outline:hover { background: var(--panel); transform: translateY(-2px); }
+
+    /* Hero */
+    .hero {
+      position: relative; display: grid; gap: 40px; align-items: center;
+      max-width: 1100px; margin: 0 auto; padding: 48px 24px 64px;
     }
-    section { max-width: 1100px; margin: 0 auto; padding: 56px 24px; }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: url("logo-chema-animado.png") center / 60% no-repeat;
+      opacity: .12; animation: float 9s ease-in-out infinite;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; color: var(--gold-light);
+      font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    }
+    .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 0 rgba(217,160,64,.6); animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(217,160,64,.5); } 70% { box-shadow: 0 0 0 14px rgba(217,160,64,0); } 100% { box-shadow: 0 0 0 0 rgba(217,160,64,0); } }
+    .hero h1 {
+      font-family: "Anton", Impact, sans-serif; font-weight: 400;
+      font-size: clamp(40px, 7vw, 72px); line-height: 1.02; letter-spacing: 1px; margin-top: 14px;
+    }
+    .grad {
+      background: linear-gradient(90deg, #fff2cf 0%, #f0c080 40%, #d9a040 60%, #fff2cf 100%); background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text; color: transparent; animation: shine 6s linear infinite;
+    }
+    @keyframes shine { to { background-position: -200% 0; } }
+    .hero p.sub { color: var(--muted); margin-top: 18px; font-size: 18px; max-width: 540px; }
+    .rotator { color: var(--text); font-weight: 700; display: inline-block; min-width: 9ch; border-bottom: 2px solid var(--gold); transition: opacity .35s, transform .35s var(--ease); }
+    .rotator.out { opacity: 0; transform: translateY(8px); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+    .stage { position: relative; width: 100%; max-width: 360px; margin: 0 auto; perspective: 1000px; }
+    .photo-wrap {
+      position: relative; border-radius: 24px; overflow: hidden; aspect-ratio: 4 / 5;
+      border: 1px solid var(--line); background: #000;
+      box-shadow: 0 40px 80px -30px rgba(217,160,64,.4), 0 0 0 8px #15120e;
+      transform-style: preserve-3d; transition: transform .2s ease-out; animation: float 6s ease-in-out infinite;
+    }
+    .photo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-wrap::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(115deg, transparent 35%, rgba(255,242,207,.18) 50%, transparent 65%);
+      background-size: 250% 100%; animation: sheen 5s ease-in-out infinite;
+    }
+    @keyframes sheen { 0% { background-position: 150% 0; } 60%, 100% { background-position: -150% 0; } }
+    @keyframes float { 50% { translate: 0 -12px; } }
+    .chip {
+      position: absolute; z-index: 2; background: rgba(23,20,16,.92); backdrop-filter: blur(6px);
+      border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; gap: 8px; white-space: nowrap; animation: float 5s ease-in-out infinite;
+    }
+    .chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--gold)); font-style: normal; }
+    .chip.c1 { top: 10%; left: -18%; animation-delay: -1s; }
+    .chip.c2 { top: 48%; right: -18%; animation-delay: -2.5s; --c: var(--ember); }
+    .chip.c3 { bottom: 10%; left: -12%; animation-delay: -4s; }
+
+    /* Cinta */
+    .marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; background: rgba(23,20,16,.6); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+    .marquee-track { display: flex; gap: 40px; width: max-content; animation: scroll 30s linear infinite; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee-track span { color: var(--muted); font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+    .marquee-track span::before { content: "✦"; color: var(--gold); margin-right: 40px; }
+    @keyframes scroll { to { transform: translateX(-50%); } }
+
+    /* Secciones */
+    section { max-width: 1100px; margin: 0 auto; padding: 88px 24px; }
+    .sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+    .sec-num { font-size: 13px; color: var(--ember); font-weight: 700; letter-spacing: .14em; }
     h2 {
       font-family: "Anton", Impact, sans-serif; font-weight: 400;
-      font-size: 32px; letter-spacing: 1px; color: var(--gold-light); margin-bottom: 8px;
+      font-size: clamp(30px, 4.4vw, 44px); line-height: 1.1; letter-spacing: .5px; color: var(--gold-light); margin-top: 6px;
     }
-    .lead { color: var(--muted); margin-bottom: 28px; }
+    .lead { color: var(--muted); margin-top: 8px; max-width: 520px; }
+    .note { border-left: 3px solid var(--bronze); padding: 12px 16px; color: var(--muted); background: var(--panel); border-radius: 0 12px 12px 0; font-size: 14px; margin-top: 22px; }
+
+    /* Aparecer al hacer scroll */
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal.from-left { transform: translateX(-60px); }
+    .reveal.from-right { transform: translateX(60px); }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* Tarjetas */
     .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
     .card {
-      background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px;
+      position: relative; overflow: hidden;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 26px;
+      transition: transform .35s var(--ease), border-color .35s, box-shadow .35s;
     }
+    .card:hover { transform: translateY(-6px); border-color: rgba(217,160,64,.55); box-shadow: 0 24px 50px -24px rgba(217,160,64,.35); }
+    .card .glow { position: absolute; width: 180px; height: 180px; border-radius: 50%; right: -70px; top: -70px; background: radial-gradient(circle, rgba(217,160,64,.22), transparent 70%); animation: float 7s ease-in-out infinite; pointer-events: none; }
     .card h3 {
       font-family: "Anton", Impact, sans-serif; font-weight: 400;
-      font-size: 22px; letter-spacing: 0.5px; color: var(--gold); margin-bottom: 8px;
+      font-size: 22px; letter-spacing: .5px; color: var(--gold); margin-bottom: 8px; position: relative;
     }
-    .card p { color: var(--muted); font-size: 15px; }
+    .card p { color: var(--muted); font-size: 15px; position: relative; }
+    .card .more { display: inline-block; margin-top: 14px; color: var(--gold-light); font-size: 14px; font-weight: 700; position: relative; }
+
     details { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
-    summary {
-      cursor: pointer; color: var(--gold-light); font-weight: 600; font-size: 14px; list-style: none;
-    }
+    summary { cursor: pointer; color: var(--gold-light); font-weight: 700; font-size: 14px; list-style: none; }
     summary::-webkit-details-marker { display: none; }
     summary::after { content: " +"; }
     details[open] summary::after { content: " −"; }
     details ul { list-style: none; margin-top: 10px; color: var(--muted); font-size: 14px; }
     details li { padding: 6px 0; border-bottom: 1px dashed var(--line); }
     details li strong { color: var(--text); }
-    table { width: 100%; border-collapse: collapse; color: var(--muted); font-size: 14px; }
-    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
-    th { color: var(--gold-light); font-weight: 600; }
-    .table-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
-    .steps { list-style: none; counter-reset: step; }
-    .steps li {
-      counter-increment: step; position: relative;
-      padding: 14px 14px 14px 56px; margin-bottom: 10px;
-      background: var(--panel); border: 1px solid var(--line); border-radius: 12px; color: var(--muted);
-    }
-    .steps li::before {
-      content: counter(step);
-      position: absolute; left: 16px; top: 12px;
-      width: 28px; height: 28px; border-radius: 50%;
-      background: linear-gradient(180deg, #f0c080, #d9a040); color: #1a1208; font-weight: 600;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .rules { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
-    .rules li { color: var(--muted); margin: 8px 0 8px 20px; }
-    .note {
-      border-left: 3px solid var(--bronze); padding: 12px 16px; color: var(--muted);
-      background: var(--panel); border-radius: 0 12px 12px 0; font-size: 14px; margin-top: 20px;
-    }
-    .form { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 14px; }
-    .form label { display: grid; gap: 6px; color: var(--muted); font-size: 14px; }
-    .form input, .form select, .form textarea {
-      background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px;
-      padding: 10px 12px; font: inherit;
-    }
-    .form textarea { min-height: 90px; }
-    .form .hidden { display: none; }
-    .form button { justify-self: start; border: 0; cursor: pointer; font: inherit; }
-    .contact {
-      text-align: center; background: var(--panel); border: 1px solid var(--line);
-      border-radius: 20px; padding: 40px 24px;
-    }
-    .contact p { color: var(--muted); margin-top: 12px; }
-    .contact .detail { color: var(--muted); margin-top: 8px; }
-    .contact .detail a { color: var(--gold); text-decoration: none; }
-    .links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-    .btn-ghost {
-      display: inline-block; padding: 10px 20px; border: 1px solid var(--gold); border-radius: 999px;
-      color: var(--gold-light); text-decoration: none; font-weight: 600; font-size: 14px;
-    }
-    .btn-ghost:hover { background: var(--panel); }
-    .video-card { display: block; text-decoration: none; color: inherit; transition: border-color 0.2s; }
-    .video-card:hover { border-color: var(--gold); }
-    .video-card .more { display: inline-block; margin-top: 14px; color: var(--gold-light); font-size: 14px; font-weight: 600; }
-    footer {
-      text-align: center; color: var(--muted); font-size: 13px; padding: 32px 24px;
-      border-top: 1px solid var(--line);
-    }
-    footer a { color: var(--gold); text-decoration: none; }
-    .hero { position: relative; }
-    .hero-bg {
-      position: absolute; inset: 0; z-index: -1; pointer-events: none;
-      background: url("logo-chema-animado.png") center / 60% no-repeat;
-      opacity: 0.12;
-    }
-    .logo-anim { width: 100%; max-width: 320px; border-radius: 16px; animation: glow 4s ease-in-out infinite; }
+
+    /* Sobre mí */
+    .about { display: grid; gap: 28px; align-items: center; }
+    .logo-anim { width: 100%; max-width: 320px; border-radius: 18px; animation: glow 4s ease-in-out infinite; justify-self: center; }
     @keyframes glow {
       0%, 100% { filter: drop-shadow(0 0 10px rgba(240, 192, 128, 0.3)); }
       50% { filter: drop-shadow(0 0 28px rgba(240, 192, 128, 0.8)); }
     }
-    .about { display: grid; gap: 24px; align-items: center; }
-    .about .details-box { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px 24px; }
-    .about .details-box > summary { font-size: 16px; }
-    .about p { color: var(--muted); margin-top: 12px; }
-    .credit { color: var(--muted); font-size: 15px; margin: 6px 0 0 20px; }
     .about-cards { display: grid; gap: 14px; }
-    .sub { color: var(--gold-light); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin: 14px 0 6px; }
+    .details-box { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 20px 24px; transition: border-color .3s; }
+    .details-box:hover { border-color: rgba(217,160,64,.45); }
+    .details-box > summary { font-size: 16px; }
+    .subhead { color: var(--gold-light); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin: 14px 0 6px; }
     .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-    .chips li { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; color: var(--text); font-size: 14px; }
-    .translate { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
-    #google_translate_element .goog-te-gadget { font-size: 12px; color: var(--muted); }
-    .brand-logo { height: 44px; width: auto; display: block; }
+    .chips li { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; color: var(--text); font-size: 14px; transition: border-color .25s, transform .25s var(--ease); }
+    .chips li:hover { border-color: var(--gold); transform: translateY(-2px); }
+
+    /* Pasos */
+    .steps { list-style: none; counter-reset: step; position: relative; }
+    .steps li {
+      counter-increment: step; position: relative;
+      padding: 16px 16px 16px 60px; margin-bottom: 12px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 14px; color: var(--muted);
+      transition: transform .3s var(--ease), border-color .3s;
+    }
+    .steps li:hover { transform: translateX(6px); border-color: rgba(217,160,64,.5); }
+    .steps li::before {
+      content: counter(step);
+      position: absolute; left: 16px; top: 14px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(180deg, #f0c080, #d9a040); color: #1a1208; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Tablas y horarios */
+    .table-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; }
+    table { width: 100%; border-collapse: collapse; color: var(--muted); font-size: 14px; }
+    th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+    th { color: var(--gold-light); font-weight: 700; }
+    tbody tr { transition: background .25s; }
+    tbody tr:hover { background: rgba(217,160,64,.06); }
+    .rules { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 24px; margin-top: 20px; }
+    .rules h3 { color: var(--gold); font-family: "Anton", Impact, sans-serif; font-weight: 400; font-size: 22px; margin-bottom: 8px; }
+    .rules li { color: var(--muted); margin: 8px 0 8px 20px; }
+
+    /* Lugares */
+    .places { list-style: none; margin-top: 10px; color: var(--muted); font-size: 14px; }
+    .places li { padding: 8px 0; border-bottom: 1px dashed var(--line); }
+    .places a { color: var(--gold); text-decoration: none; font-weight: 600; }
+    .places a:hover { text-decoration: underline; }
+
+    /* Formulario */
+    .form-cta { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 28px; display: grid; gap: 16px; justify-items: start; }
+    .form-cta p { color: var(--muted); }
+
+    /* Contacto */
+    .contact {
+      position: relative; overflow: hidden; text-align: center; background: var(--panel); border: 1px solid var(--line);
+      border-radius: 24px; padding: 48px 24px;
+    }
+    .contact .glow { position: absolute; width: 320px; height: 320px; border-radius: 50%; left: -120px; bottom: -140px; background: radial-gradient(circle, rgba(255,122,46,.2), transparent 70%); animation: float 8s ease-in-out infinite; pointer-events: none; }
+    .contact p { color: var(--muted); margin-top: 12px; position: relative; }
+    .contact .detail { color: var(--muted); margin-top: 8px; }
+    .contact .detail a { color: var(--gold); text-decoration: none; }
+    .contact .cta { position: relative; }
+    .links { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .btn-ghost {
+      display: inline-block; padding: 10px 20px; border: 1px solid var(--gold); border-radius: 999px;
+      color: var(--gold-light); text-decoration: none; font-weight: 700; font-size: 14px;
+      transition: background .25s, transform .25s var(--ease);
+    }
+    .btn-ghost:hover { background: var(--panel); transform: translateY(-2px); }
+
+    footer {
+      text-align: center; color: var(--muted); font-size: 13px; padding: 36px 24px;
+      border-top: 1px solid var(--line);
+    }
+    footer a { color: var(--gold); text-decoration: none; }
     .footer-logo { width: 96px; height: auto; display: block; margin: 0 auto 16px; border-radius: 12px; }
+
     @media (min-width: 800px) {
-      .hero { grid-template-columns: 1.1fr 1fr; padding-top: 72px; }
+      .hero { grid-template-columns: 1.1fr 1fr; padding-top: 76px; }
       .about { grid-template-columns: 1fr 1.2fr; }
     }
+    @media (max-width: 760px) {
+      nav {
+        position: fixed; top: 0; right: 0; bottom: 0; width: min(78vw, 300px);
+        flex-direction: column; align-items: stretch; gap: 6px; padding: 96px 20px 24px;
+        background: #0d0b08; box-shadow: -30px 0 60px rgba(0,0,0,.6);
+        transform: translateX(100%); transition: transform .4s var(--ease); z-index: 25;
+      }
+      body.menu-open nav { transform: none; }
+      nav a { font-size: 16px; padding: 12px 14px; }
+      .menu-btn { display: grid; }
+      .translate { display: none; }
+    }
     @media (max-width: 600px) {
-      nav a { margin-left: 12px; }
-      header { padding: 14px 16px; }
+      header { padding: 12px 16px; }
+      .brand-logo { height: 38px; }
+      .hero { padding: 36px 16px 24px; }
+      section { padding: 64px 16px; }
+      .chip.c1 { left: -4%; } .chip.c2 { right: -4%; } .chip.c3 { left: -2%; }
+      .rules, .form-cta, .contact { padding: 24px; }
+      .steps li { padding-left: 56px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
     }
   </style>
 </head>
 <body>
+  <div class="progress" id="progress"></div>
+
   <header>
     <a class="brand" href="index.html"><img class="brand-logo" src="logo-chema-completo.jpg" alt="Chema Coach"></a>
-    <nav>
+    <nav id="nav">
       <a href="#servicios">Servicios</a>
       <a href="#sobre-mi">Sobre mí</a>
+      <a href="#clase-prueba">Clase gratis</a>
       <a href="#horarios">Horarios</a>
       <a href="#videos">Videos</a>
       <a href="#contacto">Contacto</a>
     </nav>
-    <div id="google_translate_element" class="translate"></div>
+    <div class="head-right">
+      <div id="google_translate_element" class="translate"></div>
+      <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false"><span></span></button>
+    </div>
   </header>
 
   <div class="hero">
     <div class="hero-bg" aria-hidden="true"></div>
     <div>
-      <h1>Entrenamiento, <span>gimnasia</span> y calistenia.</h1>
-      <p>Explico cada movimiento con calma, desde la base hasta la versión que quieres lograr. Muestro el proceso, incluidos los intentos fallidos.</p>
-      <div class="actions">
+      <div class="eyebrow reveal"><span class="dot"></span> Entrenador personal · Costa Rica</div>
+      <h1 class="reveal">Entrenamiento, <span class="grad">gimnasia</span> y calistenia.</h1>
+      <p class="sub reveal">Explico cada movimiento con calma, desde la base hasta la versión que quieres lograr. Muestro el proceso, incluidos los intentos fallidos.</p>
+      <p class="sub reveal" style="margin-top:12px">Ideal si quieres empezar con <span class="rotator" id="rotator">fuerza</span> y control corporal.</p>
+      <div class="actions reveal">
         <a class="cta" href="https://wa.me/50660020388?text=Hola%20Chema%2C%20quiero%20reservar%20mi%20clase%20de%20prueba%20gratis." target="_blank" rel="noopener">Clase de prueba gratis</a>
         <a class="btn-outline" href="https://wa.me/50660020388?text=Hola%20Chema%2C%20quiero%20una%20cotizaci%C3%B3n." target="_blank" rel="noopener">Cotizar</a>
       </div>
     </div>
-    <img class="hero-photo" src="hero-chema.jpg" alt="Chema Coach en el gimnasio">
+    <div class="stage reveal from-right">
+      <div class="chip c1"><i></i>Fuerza</div>
+      <div class="chip c2"><i></i>Calistenia</div>
+      <div class="chip c3"><i></i>Movilidad</div>
+      <div class="photo-wrap" id="photo">
+        <img src="hero-chema.jpg" alt="Chema Coach en el gimnasio">
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Entrenamiento personal</span><span>Semipersonal</span><span>Calistenia</span><span>Gimnasia artística</span><span>Planes de entrenamiento</span><span>Coaching digital</span>
+      <span>Entrenamiento personal</span><span>Semipersonal</span><span>Calistenia</span><span>Gimnasia artística</span><span>Planes de entrenamiento</span><span>Coaching digital</span>
+    </div>
   </div>
 
   <section id="servicios">
-    <h2>Servicios</h2>
-    <p class="lead">Entrenamiento para fuerza, control corporal y movilidad. Los precios están en cada servicio.</p>
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="sec-num">01 · SERVICIOS</div>
+        <h2>Lo que hacemos juntos</h2>
+        <p class="lead">Entrenamiento para fuerza, control corporal y movilidad. Los precios están en cada servicio.</p>
+      </div>
+    </div>
     <div class="grid">
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Entrenamiento personal</h3>
         <p>Rutinas adaptadas a tu nivel, tus objetivos y tu tiempo disponible.</p>
         <details>
@@ -222,7 +367,7 @@
           </ul>
         </details>
       </div>
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Semipersonal</h3>
         <p>Entrenamiento en grupo pequeño, con corrección individual en cada movimiento.</p>
         <details>
@@ -234,7 +379,7 @@
           </ul>
         </details>
       </div>
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Planes de entrenamiento</h3>
         <p>Progresiones escritas para entrenar en casa o en el gimnasio, según tu nivel.</p>
         <details>
@@ -245,7 +390,7 @@
           </ul>
         </details>
       </div>
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Guías alimenticias</h3>
         <p>Orientación de alimentación para tu objetivo. No sustituye la consulta con un nutricionista.</p>
         <details>
@@ -256,7 +401,7 @@
           </ul>
         </details>
       </div>
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Coaching digital</h3>
         <p>Entrenamiento y seguimiento a distancia, con un programa personalizado para tu objetivo.</p>
         <details>
@@ -270,12 +415,17 @@
   </section>
 
   <section id="sobre-mi">
-    <h2>Sobre mí</h2>
-    <p class="lead">Atleta y entrenador. Lo que aprendí compitiendo, lo que enseño ahora.</p>
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="sec-num">02 · SOBRE MÍ</div>
+        <h2>Atleta y entrenador</h2>
+        <p class="lead">Lo que aprendí compitiendo, lo que enseño ahora.</p>
+      </div>
+    </div>
     <div class="about">
-      <img class="logo-anim" src="logo-chema-animado.png" alt="Logo animado de Chema Coach">
+      <img class="logo-anim reveal from-left" src="logo-chema-animado.png" alt="Logo animado de Chema Coach">
       <div class="about-cards">
-        <details class="details-box" open>
+        <details class="details-box reveal" open>
           <summary>Como atleta</summary>
           <ul class="chips">
             <li>Gimnasia artística masculina</li>
@@ -283,15 +433,15 @@
             <li>Varias medallas en campeonatos internos de gimnasia</li>
           </ul>
         </details>
-        <details class="details-box">
+        <details class="details-box reveal">
           <summary>Como entrenador</summary>
-          <p class="sub">Gimnasia artística</p>
+          <p class="subhead">Gimnasia artística</p>
           <ul class="chips">
             <li>Asociación Metropolitana de Gimnasia</li>
             <li>Gimnasio Belén</li>
             <li>Gravite</li>
           </ul>
-          <p class="sub">Entrenamiento personal y fitness</p>
+          <p class="subhead">Entrenamiento personal y fitness</p>
           <ul class="chips">
             <li>Power Fitness (San Carlos)</li>
             <li>Revolution (Ciudad Quesada)</li>
@@ -301,16 +451,16 @@
             <li>Golden Gym</li>
             <li>Empire Gym Center (Tibás)</li>
           </ul>
-          <p class="sub">Clases en instituciones</p>
+          <p class="subhead">Clases en instituciones</p>
           <ul class="chips">
             <li>Nueva Esperanza (Heredia)</li>
             <li>Montecarlo (San Carlos)</li>
             <li>Colegio Adventista (Hatillo)</li>
           </ul>
         </details>
-        <details class="details-box">
+        <details class="details-box reveal">
           <summary>Formación</summary>
-          <p class="sub">Deportiva</p>
+          <p class="subhead">Deportiva</p>
           <ul class="chips">
             <li>Titulación de entrenador de alto rendimiento en gimnasia artística masculina y femenina</li>
             <li>Federación Deportiva de Gimnasia y Afines de Costa Rica</li>
@@ -325,36 +475,46 @@
   </section>
 
   <section id="clase-prueba">
-    <h2>Clase de prueba gratis</h2>
-    <p class="lead">Una hora para conocer tu punto de partida. Sin compromiso: si no te sirve, no sigues.</p>
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="sec-num">03 · PRIMER PASO</div>
+        <h2>Clase de prueba gratis</h2>
+        <p class="lead">Una hora para conocer tu punto de partida. Sin compromiso: si no te sirve, no sigues.</p>
+      </div>
+    </div>
     <div class="grid">
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Qué incluye</h3>
         <p>Evaluación de tu nivel, una progresión práctica y el plan que te recomendaría.</p>
       </div>
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Dónde</h3>
         <p>En uno de estos dos gimnasios de Aguas Zarcas:</p>
         <ul class="places">
           <li><strong>Elite Fitness</strong>: 100 m norte de Daytona.
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=Elite+Fitness+Aguas+Zarcas" target="_blank" rel="noopener">Abrir en Google Maps</a></li>
+            <br><a href="https://www.google.com/maps/search/?api=1&amp;query=Elite+Fitness+Aguas+Zarcas" target="_blank" rel="noopener">Abrir en Google Maps</a></li>
           <li><strong>Kultura Fit</strong>: 400 m oeste del CTP de Aguas Zarcas, frente al Hotel Río Mary.
-            <a href="https://www.google.com/maps/search/?api=1&amp;query=Kultura+Fit+Aguas+Zarcas" target="_blank" rel="noopener">Abrir en Google Maps</a></li>
+            <br><a href="https://www.google.com/maps/search/?api=1&amp;query=Kultura+Fit+Aguas+Zarcas" target="_blank" rel="noopener">Abrir en Google Maps</a></li>
         </ul>
       </div>
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Cómo reservar</h3>
         <p>Toca el botón de clase de prueba y te escribo por WhatsApp para confirmar horario y lugar.</p>
-        <a class="cta" style="margin-top:14px" href="https://wa.me/50660020388?text=Hola%20Chema%2C%20quiero%20reservar%20mi%20clase%20de%20prueba%20gratis." target="_blank" rel="noopener">Reservar clase gratis</a>
+        <a class="cta" style="margin-top:16px;display:inline-block" href="https://wa.me/50660020388?text=Hola%20Chema%2C%20quiero%20reservar%20mi%20clase%20de%20prueba%20gratis." target="_blank" rel="noopener">Reservar clase gratis</a>
       </div>
     </div>
-    <p class="note">Antes de la clase te pregunto por lesiones o condiciones médicas. Si tienes alguna, consulta primero a un profesional de salud.</p>
+    <p class="note reveal">Antes de la clase te pregunto por lesiones o condiciones médicas. Si tienes alguna, consulta primero a un profesional de salud.</p>
   </section>
 
   <section id="horarios">
-    <h2>Horarios de atención</h2>
-    <p class="lead">Lunes a viernes. Cada clase dura 1 hora.</p>
-    <div class="table-wrap">
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="sec-num">04 · AGENDA</div>
+        <h2>Horarios de atención</h2>
+        <p class="lead">Lunes a viernes. Cada clase dura 1 hora.</p>
+      </div>
+    </div>
+    <div class="table-wrap reveal">
       <table>
         <thead>
           <tr><th>Servicio</th><th>Mañana</th><th>Tarde y noche</th></tr>
@@ -374,36 +534,46 @@
       </table>
     </div>
 
-    <div class="rules" style="margin-top:20px">
-      <h3 style="color:var(--gold);font-family:Anton,Impact,sans-serif;font-weight:400;font-size:22px;margin-bottom:8px">Reglas de reserva</h3>
+    <div class="rules reveal">
+      <h3>Reglas de reserva</h3>
       <ul>
         <li>Tienes 12 clases al mes en tu plan.</li>
         <li>Si cancelas, avisa con al menos 2 horas de anticipación, o por fuerza mayor.</li>
         <li>Si faltas sin aviso y sin justificación, pierdes ese cupo.</li>
       </ul>
     </div>
-    <p class="note">Si ya eres cliente, puedes reservar tus clases con anticipación en estos horarios, escribiéndome por WhatsApp.</p>
+    <p class="note reveal">Si ya eres cliente, puedes reservar tus clases con anticipación en estos horarios, escribiéndome por WhatsApp.</p>
   </section>
 
   <section id="formulario">
-    <h2>Cuéntame qué necesitas</h2>
-    <p class="lead">Responde unas preguntas y te escribo con una propuesta según tu caso.</p>
-    <div class="form-cta">
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="sec-num">05 · CUÉNTAME</div>
+        <h2>Cuéntame qué necesitas</h2>
+        <p class="lead">Responde unas preguntas y te escribo con una propuesta según tu caso.</p>
+      </div>
+    </div>
+    <div class="form-cta reveal">
       <p>Llena el formulario en Google. Toma unos 3 minutos y te escribo con una propuesta según tu caso.</p>
       <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfSp5sJTJSWuQuLRb4J9L4p0ejxMTYz61ZDhOz55xjI1w8r6Q/viewform" target="_blank" rel="noopener">Abrir el formulario</a>
     </div>
-    <p class="note">Tus datos solo se usan para responderte. Lee la <a href="privacidad.html" style="color:var(--gold-light)">política de privacidad</a>.</p>
+    <p class="note reveal">Tus datos solo se usan para responderte. Lee la <a href="privacidad.html" style="color:var(--gold-light)">política de privacidad</a>.</p>
   </section>
 
   <section id="mision">
-    <h2>Misión y visión</h2>
-    <p class="lead">Por qué entreno, y hacia dónde quiero llevar este trabajo.</p>
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="sec-num">06 · PROPÓSITO</div>
+        <h2>Misión y visión</h2>
+        <p class="lead">Por qué entreno, y hacia dónde quiero llevar este trabajo.</p>
+      </div>
+    </div>
     <div class="grid">
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Misión</h3>
         <p>Enseñar a entrenar con criterio: explicar cada progresión, corregir los errores comunes y acompañar a cada persona según su nivel y su objetivo.</p>
       </div>
-      <div class="card">
+      <div class="card reveal"><span class="glow"></span>
         <h3>Visión</h3>
         <p>Que más personas en Costa Rica aprendan fuerza, gimnasia y calistenia de forma segura, entendible y sostenible.</p>
       </div>
@@ -411,25 +581,34 @@
   </section>
 
   <section id="videos">
-    <h2>Videos destacados</h2>
-    <p class="lead">Algunos de los videos que más explican cómo entreno y cómo trabajo.</p>
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="sec-num">07 · VIDEOS</div>
+        <h2>Videos destacados</h2>
+        <p class="lead">Algunos de los videos que más explican cómo entreno y cómo trabajo.</p>
+      </div>
+    </div>
     <div class="grid">
-      <a class="card video-card" href="https://www.instagram.com/reel/DdPxryJOQUR/" target="_blank" rel="noopener">
+      <a class="card video-card reveal" href="https://www.instagram.com/reel/DdPxryJOQUR/" target="_blank" rel="noopener">
+        <span class="glow"></span>
         <h3>Creatina</h3>
         <p>Cómo elegir la creatina correcta y tomarla con constancia, sin complicarte.</p>
         <span class="more">Ver en Instagram →</span>
       </a>
-      <a class="card video-card" href="https://www.instagram.com/reel/Dc1Bs4AOqM7/" target="_blank" rel="noopener">
+      <a class="card video-card reveal" href="https://www.instagram.com/reel/Dc1Bs4AOqM7/" target="_blank" rel="noopener">
+        <span class="glow"></span>
         <h3>El problema no siempre es la disciplina</h3>
         <p>Por qué intentar cambiarlo todo de golpe hace que abandones, y qué hacer en cambio.</p>
         <span class="more">Ver en Instagram →</span>
       </a>
-      <a class="card video-card" href="https://www.instagram.com/reel/Dcr3HzHOFoF/" target="_blank" rel="noopener">
+      <a class="card video-card reveal" href="https://www.instagram.com/reel/Dcr3HzHOFoF/" target="_blank" rel="noopener">
+        <span class="glow"></span>
         <h3>El inicio de un cambio</h3>
         <p>El cambio no depende de tu edad, sino de tu capacidad para evaluar en qué situación estás.</p>
         <span class="more">Ver en Instagram →</span>
       </a>
-      <a class="card video-card" href="https://www.instagram.com/reel/DNmb8q1OVZV/" target="_blank" rel="noopener">
+      <a class="card video-card reveal" href="https://www.instagram.com/reel/DNmb8q1OVZV/" target="_blank" rel="noopener">
+        <span class="glow"></span>
         <h3>Bebidas energéticas</h3>
         <p>Un consejo rápido sobre las bebidas energéticas.</p>
         <span class="more">Ver en Instagram →</span>
@@ -438,22 +617,28 @@
   </section>
 
   <section id="metodo">
-    <h2>Cómo trabajamos</h2>
-    <p class="lead">Un proceso simple, con explicación en cada paso.</p>
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="sec-num">08 · PROCESO</div>
+        <h2>Cómo trabajamos</h2>
+        <p class="lead">Un proceso simple, con explicación en cada paso.</p>
+      </div>
+    </div>
     <ol class="steps">
-      <li>Me cuentas tu nivel, tu objetivo y si tienes alguna lesión.</li>
-      <li>Diseñamos progresiones según tu punto de partida.</li>
-      <li>Practicamos cada movimiento con corrección de errores comunes.</li>
-      <li>Revisamos avances y ajustamos el plan.</li>
+      <li class="reveal">Me cuentas tu nivel, tu objetivo y si tienes alguna lesión.</li>
+      <li class="reveal">Diseñamos progresiones según tu punto de partida.</li>
+      <li class="reveal">Practicamos cada movimiento con corrección de errores comunes.</li>
+      <li class="reveal">Revisamos avances y ajustamos el plan.</li>
     </ol>
-    <p class="note">Sin promesas de resultados ni tiempos exactos para lograr un movimiento. Si tienes una lesión, consulta primero a un profesional de salud.</p>
+    <p class="note reveal">Sin promesas de resultados ni tiempos exactos para lograr un movimiento. Si tienes una lesión, consulta primero a un profesional de salud.</p>
   </section>
 
   <section id="contacto">
-    <div class="contact">
+    <div class="contact reveal">
+      <span class="glow"></span>
       <h2>¿Quieres entrenar conmigo?</h2>
       <p>Escríbeme por WhatsApp o por correo y cuéntame tu objetivo.</p>
-      <a class="cta" href="https://wa.me/50660020388" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      <div style="margin-top:22px"><a class="cta" href="https://wa.me/50660020388" target="_blank" rel="noopener">Escribir por WhatsApp</a></div>
       <p class="detail">WhatsApp: 6002-0388</p>
       <p class="detail"><a href="mailto:salas.chema1234@gmail.com">salas.chema1234@gmail.com</a></p>
     </div>
@@ -463,16 +648,72 @@
     <img class="footer-logo" src="logo-chema-completo.jpg" alt="Chema Coach">
     <div class="links">
       <a class="btn-ghost" href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">Instagram</a>
+      <a class="btn-ghost" href="https://www.tiktok.com/@chema.salas.villalobos" target="_blank" rel="noopener">TikTok</a>
       <a class="btn-ghost" href="https://www.facebook.com/104432805943992" target="_blank" rel="noopener">Facebook</a>
     </div>
     <p style="margin-top:20px">© Chema Coach · <a href="https://www.instagram.com/chema_coach/" target="_blank" rel="noopener">@chema_coach</a> · <a href="privacidad.html">Política de privacidad</a></p>
   </footer>
 
-
   <script>
+    /* Traducción */
     function gtInit() {
       new google.translate.TranslateElement({ pageLanguage: "es", includedLanguages: "en,es", autoDisplay: false }, "google_translate_element");
     }
+
+    /* Menú móvil */
+    const menuBtn = document.getElementById("menuBtn");
+    menuBtn.addEventListener("click", () => {
+      const open = document.body.classList.toggle("menu-open");
+      menuBtn.setAttribute("aria-expanded", open);
+    });
+    document.querySelectorAll("#nav a").forEach(a => a.addEventListener("click", () => {
+      document.body.classList.remove("menu-open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    }));
+
+    /* Aparecer al hacer scroll, con retraso escalonado por grupo */
+    document.querySelectorAll(".grid, .steps, .about-cards").forEach(g => {
+      g.querySelectorAll(":scope > .reveal").forEach((n, i) => { n.style.transitionDelay = (i * 0.1) + "s"; });
+    });
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(n => io.observe(n));
+
+    /* Palabra rotativa en el hero */
+    const words = ["fuerza", "calistenia", "movilidad", "gimnasia", "control corporal"];
+    const rot = document.getElementById("rotator");
+    let wi = 0;
+    setInterval(() => {
+      rot.classList.add("out");
+      setTimeout(() => { wi = (wi + 1) % words.length; rot.textContent = words[wi]; rot.classList.remove("out"); }, 350);
+    }, 2600);
+
+    /* Inclinación 3D de la foto con el mouse */
+    const photo = document.getElementById("photo");
+    if (window.matchMedia("(pointer: fine)").matches) {
+      photo.addEventListener("mousemove", e => {
+        const r = photo.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;
+        const y = (e.clientY - r.top) / r.height - .5;
+        photo.style.transform = `rotateY(${x * 14}deg) rotateX(${-y * 14}deg)`;
+      });
+      photo.addEventListener("mouseleave", () => { photo.style.transform = ""; });
+    }
+
+    /* Barra de progreso y sección activa */
+    const bar = document.getElementById("progress");
+    const links = [...document.querySelectorAll("#nav a")];
+    const secs = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+    function onScroll() {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+      let current = null;
+      secs.forEach(s => { if (s.getBoundingClientRect().top < innerHeight * 0.35) current = s; });
+      links.forEach(a => a.classList.toggle("active", current && a.getAttribute("href") === "#" + current.id));
+    }
+    addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
   </script>
   <script src="https://translate.google.com/translate_a/element.js?cb=gtInit"></script>
 </body>
